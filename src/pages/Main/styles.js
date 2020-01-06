@@ -6,7 +6,7 @@ export const Container = styled.SafeAreaView`
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    background-color: #4F6D7A;
+    background-color: #4F6D7B;
 `;
 
 export const Title = styled.Text`
