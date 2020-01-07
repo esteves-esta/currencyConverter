@@ -5,8 +5,6 @@ import TextInputBtn from '../../components/TextInputBtn/index';
 import SimpleButton from '../../components/SimpleButton/index';
 import ConversionText from '../../components/ConversionText/index';
 import Header from '../../components/Header/index';
-import { swapCurrency, changeCurrencyAmount } from '../../redux/action/currencies';
-import { connect } from 'react-redux';
 
 const Main = ({ navigation }, props) => {
 
@@ -14,13 +12,11 @@ const Main = ({ navigation }, props) => {
   const ANIMATION_DURATION = 250;
 
   const handleSwap = () => {
-    const { dispatch } = props;
-    dispatch(swapCurrency());
+
   };
 
   const handleChangeText = (text) => {
-    const { dispatch } = props;
-    dispatch(changeCurrencyAmount(text));
+
   };
 
 
@@ -97,5 +93,5 @@ const Main = ({ navigation }, props) => {
   )
 };
 
-export default connect()(Main);
+export default Main;
 
