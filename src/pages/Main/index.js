@@ -5,11 +5,25 @@ import TextInputBtn from '../../components/TextInputBtn/index';
 import SimpleButton from '../../components/SimpleButton/index';
 import ConversionText from '../../components/ConversionText/index';
 import Header from '../../components/Header/index';
+import { swapCurrency, changeCurrencyAmount } from '../../redux/action/currencies';
+import { connect } from 'react-redux';
 
-const Main = ({ }) => {
+const Main = ({ navigation }, props) => {
 
-  const [sizeAnimated] = useState(new Animated.Value(50));
+  const [sizeAnimated] = useState(new Animated.Value(30));
   const ANIMATION_DURATION = 250;
+
+  const handleSwap = () => {
+    const { dispatch } = props;
+    dispatch(swapCurrency());
+  };
+
+  const handleChangeText = (text) => {
+    const { dispatch } = props;
+    dispatch(changeCurrencyAmount(text));
+  };
+
+
 
   useEffect(() => {
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
@@ -29,7 +43,7 @@ const Main = ({ }) => {
   function keyboardHide() {
     // console.log('hide');
     Animated.timing(sizeAnimated, {
-      toValue: 50,
+      toValue: 30,
       duration: ANIMATION_DURATION,
     }).start();
 
@@ -45,20 +59,20 @@ const Main = ({ }) => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
-        <Header onPress={() => { }} />
+        <Header onPress={() => navigation.navigate('Options')} />
 
-        <Animated.Text style={{ fontSize: sizeAnimated, color: '#fff' }}>Teste</Animated.Text>
-        <Title>Currency Converter</Title>
+        <Animated.Text style={{ fontSize: sizeAnimated, color: '#fff' }}>Currency Converter</Animated.Text>
         <KeyboardAvoidingView>
           <TextInputBtn
-            onPress={() => { }}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency' })}
             buttonText={TEMP_BASE_CURRENCY}
             defaultValue={TEMP_BASE_PRICE}
             keyboardType="numeric"
+            onChangeText={handleChangeText}
           />
 
           <TextInputBtn
-            onPress={() => { }}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency' })}
             buttonText={TEMP_QUOTE_CURRENCY}
             defaultValue={TEMP_QUOTE_PRICE}
             editable={false}
@@ -73,7 +87,7 @@ const Main = ({ }) => {
         />
 
         <SimpleButton
-          onPress={() => { }}
+          onPress={handleSwap}
           text="Reverse Currencies"
         />
 
@@ -83,5 +97,5 @@ const Main = ({ }) => {
   )
 };
 
-export default Main;
+export default connect()(Main);
 

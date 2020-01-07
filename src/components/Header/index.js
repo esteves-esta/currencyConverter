@@ -2,14 +2,15 @@ import React from 'react';
 import { Button, Container, Icon } from './styles';
 
 const Header = ({ onPress }) => {
+
   return (
-    <Container onPress={onPress}>
-      <Button>
+    <Container>
+      <Button onPress={onPress}>
         <Icon
           resizeMode="contain"
           source={require('../../asset/gear.png')} />
       </Button>
-    </Container>
+    </Container >
   )
 }
 

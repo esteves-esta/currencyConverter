@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../data/colors';
 
 export const Container = styled.SafeAreaView`
     display: flex;
@@ -6,7 +7,7 @@ export const Container = styled.SafeAreaView`
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    background-color: #4F6D7B;
+    background-color: ${colors.blue};
 `;
 
 export const Title = styled.Text`

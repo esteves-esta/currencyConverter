@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../data/colors';
 
 export const CustomButton = styled.TouchableHighlight`
     display: flex;
@@ -10,18 +11,13 @@ export const Row = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #fff;
+  background-color: ${colors.white};
 `;
 
 export const CustomText = styled.Text`
     font-size: 16px;
-    color: #343434; 
+    color: ${colors.dark}; 
     font-weight: 600;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
 `;
 
-export const Separartor = styled.View`
-  margin-left: 20px;
-  background-color: "#efefef";
-  height: 5px;
-`;

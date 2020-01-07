@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Text, FlatList, SafeAreaView } from 'react-native';
-// import { } from './styles';
+import { Separator } from '../../components/Component/styles';
 import ListItem from '../../components/ListItem/index';
 import currencies from '../../data/currencies';
 
-const CurrencyList = () => {
-  const [selected, setSelected] = useState(false);
+const CurrencyList = ({ navigation }) => {
   const handlePress = () => {
-    setSelected(true);
+    navigation.goBack(null);
   }
+
+  const TEMP_CURRENT = 'CAD';
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -17,10 +18,11 @@ const CurrencyList = () => {
         keyExtractor={item => item}
         renderItem={({ item }) =>
           <ListItem
-            selected={selected}
+            selected={TEMP_CURRENT == item}
             text={item}
             onPress={handlePress} />
         }
+        ItemSeparatorComponent={Separator}
       />
     </SafeAreaView>
   )

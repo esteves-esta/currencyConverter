@@ -1,3 +1,4 @@
+import colors from '../../data/colors';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -12,7 +13,7 @@ export const Input = styled.TextInput`
     opacity: ${props => props.disabled ? 0.7 : 1};
     height: 48px;
     padding: 0px 8px;
-    color: #4F6D7A;
+    color: ${colors.blue};
     font-size: 18px;
     display: flex;
     flex: 1;
@@ -32,11 +33,11 @@ export const Text = styled.Text`
     font-weight:700;
     font-size: 20px;
     padding: 0px 16px;
-    color: #4F6D7A;
+    color: ${colors.blue};
 `;
 
 export const Border = styled.View`
-    background-color: #4F6D7A;
+    background-color: ${colors.blue};
     height:100%;
     width: 3px;
 `;

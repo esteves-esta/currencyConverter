@@ -1,15 +1,23 @@
 import React from 'react';
-import { CustomButton, CustomText, Row, Separartor } from './styles';
-import { View } from 'react-native';
+import { CustomButton, CustomText, Row } from './styles';
+import Icon from '../../components/Icon/index';
 
-export default function ListItem({ text, selected, onPress }) {
+export default function ListItem(
+  { text, selected = true, onPress, checkmark = true, visible = true, customIcon, iconBackground }) {
   return (
     <CustomButton
-      underlayColor="#8dc0d9"
+      underlayColor="#e2e2e2"
       onPress={onPress}>
       <Row>
         <CustomText>{text}</CustomText>
-        {selected ? <CustomText>Selected</CustomText> : null}
+        {selected ?
+          <Icon
+            customIcon={customIcon}
+            checkmark={checkmark}
+            visible={visible}
+            iconBackground={iconBackground}
+          />
+          : null}
       </Row>
     </CustomButton>
   );
