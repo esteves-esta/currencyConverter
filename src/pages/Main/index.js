@@ -5,30 +5,77 @@ import TextInputBtn from '../../components/TextInputBtn/index';
 import SimpleButton from '../../components/SimpleButton/index';
 import ConversionText from '../../components/ConversionText/index';
 import Header from '../../components/Header/index';
+import { useSelector, useDispatch } from 'react-redux';
+import { Types as MainTypes } from '../../store/ducks/Main';
+// https://learn.handlebarlabs.com/courses/react-native-basics-build-a-currency-converter/lectures/2769046
 
 const Main = ({ navigation }, props) => {
-
   const [sizeAnimated] = useState(new Animated.Value(30));
   const ANIMATION_DURATION = 250;
 
-  const handleSwap = () => {
+  const [quote, setQuote] = useState('GBP');
+  const [base, setBase] = useState('USD');
+  const [rate, setRate] = useState(0);
+  const [basePrice, setBasePrice] = useState('0');
+  const [quotePrice, setQuotePrice] = useState('0');
+  const [conversionSelector, setConversion] = useState({});
+  const [rates, setRates] = useState(0);
 
-  };
+  const TEMP_CONVERSION_DATE = new Date();
 
-  const handleChangeText = (text) => {
-
-  };
-
-
+  const data = useSelector(state => state.Main);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
+    data.conversions && conversion();
+    data.conversions && setBase(data.baseCurrency);
+    data.conversions && setQuote(data.quoteCurrency);
+
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
     Keyboard.addListener(`keyboard${name}Show`, keyboardShow);
     Keyboard.addListener(`keyboard${name}Hide`, keyboardHide);
+
+    conversion();
   }, []);
 
+  useEffect(() => {
+    conversion();
+    setBase(data.baseCurrency);
+    setQuote(data.quoteCurrency);
+  }, [data]);
+
+
+  function conversion() {
+
+    data.conversions && setConversion(data.conversions[base]);
+    data.conversions && setRates(data.conversions[base].rates[quote] || '0');
+    setBasePrice(data.amount);
+
+    let quoteText = '...';
+    if (!conversionSelector.isFetching) {
+      quoteText = (Number(basePrice) * rates).toFixed(2);
+    }
+    setQuotePrice(quoteText);
+
+    console.log(quotePrice);
+  }
+
+
+  const handleSwap = () => {
+    dispatch({ type: MainTypes.SWAP_CURRENCY });
+
+    setBase(data.baseCurrency);
+    setQuote(data.quoteCurrency);
+  };
+
+  const handleChangeText = (text) => {
+    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
+    setBasePrice(text);
+  };
+
+
   function keyboardShow() {
-    // console.log('asdf');
     Animated.timing(sizeAnimated, {
       toValue: 20,
       duration: ANIMATION_DURATION,
@@ -37,49 +84,43 @@ const Main = ({ navigation }, props) => {
   }
 
   function keyboardHide() {
-    // console.log('hide');
     Animated.timing(sizeAnimated, {
       toValue: 30,
       duration: ANIMATION_DURATION,
     }).start();
-
   }
 
-  const TEMP_BASE_CURRENCY = 'USD';
-  const TEMP_QUOTE_CURRENCY = 'GBP';
-  const TEMP_BASE_PRICE = '100';
-  const TEMP_QUOTE_PRICE = '79.74';
-  const TEMP_CONVERSION_RATE = 0.7974;
-  const TEMP_CONVERSION_DATE = new Date();
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
         <Header onPress={() => navigation.navigate('Options')} />
 
-        <Animated.Text style={{ fontSize: sizeAnimated, color: '#fff' }}>Currency Converter</Animated.Text>
+        <Animated.Text style={{ fontSize: sizeAnimated }}>
+          <Title>Currency Converter</Title>
+        </Animated.Text>
         <KeyboardAvoidingView>
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency' })}
-            buttonText={TEMP_BASE_CURRENCY}
-            defaultValue={TEMP_BASE_PRICE}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base', currency: base })}
+            buttonText={base}
+            defaultValue={data.amount.toString()}
             keyboardType="numeric"
             onChangeText={handleChangeText}
           />
 
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency' })}
-            buttonText={TEMP_QUOTE_CURRENCY}
-            defaultValue={TEMP_QUOTE_PRICE}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote', currency: quote })}
+            buttonText={quote}
+            defaultValue={quotePrice}
             editable={false}
           />
         </KeyboardAvoidingView>
 
         <ConversionText
           date={TEMP_CONVERSION_DATE}
-          base={TEMP_BASE_CURRENCY}
-          quote={TEMP_QUOTE_CURRENCY}
-          conversionRate={TEMP_CONVERSION_RATE}
+          base={base}
+          quote={quote}
+          conversionRate={rates.toString()}
         />
 
         <SimpleButton

@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import colors from '../../data/colors';
 
 export const Container = styled.SafeAreaView`
@@ -11,7 +11,7 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Title = styled.Text`
-    font-size: 25px;
-    color: #FFF; 
+    /* font-size: 25px; */
+    color: ${colors.white}; 
     font-weight: 700;
 `;
