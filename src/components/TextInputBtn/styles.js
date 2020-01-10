@@ -13,7 +13,7 @@ export const Input = styled.TextInput`
     opacity: ${props => props.disabled ? 0.7 : 1};
     height: 48px;
     padding: 0px 8px;
-    color: ${colors.blue};
+    color: ${props => props.color};
     font-size: 18px;
     display: flex;
     flex: 1;
@@ -33,11 +33,11 @@ export const Text = styled.Text`
     font-weight:700;
     font-size: 20px;
     padding: 0px 16px;
-    color: ${colors.blue};
+    color: ${props => props.color};
 `;
 
 export const Border = styled.View`
-    background-color: ${colors.blue};
+    background-color: ${props => props.color};
     height:100%;
     width: 3px;
 `;

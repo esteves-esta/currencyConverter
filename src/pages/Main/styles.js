@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    background-color: ${colors.blue};
+    background-color: ${props => props.background};
 `;
 
 export const Title = styled.Text`

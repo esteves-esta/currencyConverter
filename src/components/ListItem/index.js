@@ -3,7 +3,8 @@ import { CustomButton, CustomText, Row } from './styles';
 import Icon from '../../components/Icon/index';
 
 export default function ListItem(
-  { text, selected = true, onPress, checkmark = true, visible = true, customIcon, iconBackground }) {
+  { text, selected = true, onPress, checkmark = true,
+    visible = true, customIcon, iconBackground }) {
   return (
     <CustomButton
       underlayColor="#e2e2e2"

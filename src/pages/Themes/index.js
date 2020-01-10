@@ -1,13 +1,18 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import ListItem from '../../components/ListItem/index';
-// import { Container } from './styles';
+import { Types as ThemesTypes } from '../../store/ducks/Themes';
+import { useDispatch } from 'react-redux';
 import { Separator } from '../../components/Component/styles';
 import colors from '../../data/colors';
 
-const Themes = () => {
+const Themes = ({ navigation }) => {
+
+  const dispatch = useDispatch();
+
   const handleClick = (text) => {
-    console.log(text);
+    dispatch({ type: ThemesTypes.CHANGE_PRIMARY_COLOR, payload: text });
+    navigation.goBack(null);
   };
 
 

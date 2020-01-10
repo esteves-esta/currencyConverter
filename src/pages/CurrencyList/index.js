@@ -8,6 +8,8 @@ import { Types as MainTypes } from '../../store/ducks/Main';
 
 
 const CurrencyList = ({ navigation }) => {
+  const theme = useSelector(state => state.Themes);
+  const { primaryColor } = theme;
 
   const [selected, setSelected] = useState('');
 
@@ -38,7 +40,9 @@ const CurrencyList = ({ navigation }) => {
           <ListItem
             selected={selected == item}
             text={item}
-            onPress={() => handlePress(item)} />
+            onPress={() => handlePress(item)}
+            iconBackground={primaryColor}
+          />
         }
         ItemSeparatorComponent={Separator}
       />

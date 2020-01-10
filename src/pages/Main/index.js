@@ -25,8 +25,11 @@ const Main = ({ navigation }, props) => {
 
   const data = useSelector(state => state.Main);
   const dispatch = useDispatch();
+  const theme = useSelector(state => state.Themes);
+  const { primaryColor } = theme;
 
   useEffect(() => {
+
     dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
     data.conversions && conversion();
     data.conversions && setBase(data.baseCurrency);
@@ -93,7 +96,7 @@ const Main = ({ navigation }, props) => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <Container>
+      <Container background={primaryColor}>
         <Header onPress={() => navigation.navigate('Options')} />
 
         <Animated.Text style={{ fontSize: sizeAnimated }}>
@@ -106,6 +109,7 @@ const Main = ({ navigation }, props) => {
             defaultValue={data.amount.toString()}
             keyboardType="numeric"
             onChangeText={handleChangeText}
+            color={primaryColor}
           />
 
           <TextInputBtn
@@ -113,6 +117,7 @@ const Main = ({ navigation }, props) => {
             buttonText={quote}
             defaultValue={quotePrice}
             editable={false}
+            color={primaryColor}
           />
         </KeyboardAvoidingView>
 

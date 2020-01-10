@@ -3,22 +3,21 @@ import React from 'react';
 import { Container, Button, Input, Text, Border } from './styles';
 
 const TextInputBtn = (props) => {
-  const { onPress, buttonText, editable = true } = props;
-  const underlayColor = '#406070';
-
+  const { onPress, buttonText, editable = true, color } = props;
   return (
     <Container>
       <Button
         onPress={onPress}
-        underlayColor={underlayColor}
+        underlayColor={color}
       >
-        <Text>{buttonText}</Text>
+        <Text color={color}>{buttonText}</Text>
       </Button>
-      <Border />
+      <Border color={color} />
       <Input
         underlineColorAndroid='transparent'
         disabled={!editable}
         {...props}
+        color={color}
       />
     </Container>
   )
