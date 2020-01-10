@@ -16,7 +16,7 @@ export const Row = styled.View`
 
 export const CustomText = styled.Text`
     font-size: 16px;
-    color: ${colors.dark}; 
+    color: ${colors.black}; 
     font-weight: 600;
     letter-spacing: 3px;
 `;

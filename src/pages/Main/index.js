@@ -27,7 +27,7 @@ const Main = ({ navigation }, props) => {
   useEffect(() => {
 
     dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
-    data.conversions && conversion()
+    data.conversions && conversion();
 
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
     Keyboard.addListener(`keyboard${name}Show`, keyboardShow);
@@ -55,7 +55,10 @@ const Main = ({ navigation }, props) => {
   };
 
   const handleChangeText = (text) => {
-    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT, amount: text });
+    dispatch({
+      type: MainTypes.CHANGE_CURRENCY_AMOUNT,
+      amount: text
+    });
   };
 
 
@@ -106,9 +109,7 @@ const Main = ({ navigation }, props) => {
           date={TEMP_CONVERSION_DATE}
           base={base}
           quote={quote}
-          conversionRate={
-            rates[quote].toString() || '0'
-          }
+          conversionRate={rates[quote] || '0'}
         />
 
         <SimpleButton

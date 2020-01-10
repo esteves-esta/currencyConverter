@@ -16,8 +16,8 @@ const TextInputBtn = (props) => {
       <Input
         underlineColorAndroid='transparent'
         disabled={!editable}
-        {...props}
         color={color}
+        {...props}
       />
     </Container>
   )

@@ -44,10 +44,10 @@ const Themes = ({ navigation }) => {
 
       <Separator />
       <ListItem
-        text={'Purple'}
-        onPress={() => handleClick(colors.purple)}
+        text={'Black'}
+        onPress={() => handleClick(colors.black)}
         checkmark={false}
-        iconBackground={colors.purple}
+        iconBackground={colors.black}
       />
 
 

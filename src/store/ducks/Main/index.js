@@ -71,7 +71,7 @@ const setConversion = (state, action) => {
 export default function main(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.CHANGE_CURRENCY_AMOUNT: {
-      return { ...state, amount: action.amount || 100 };
+      return { ...state, amount: action.amount || 0 };
     }
     case Types.SWAP_CURRENCY: {
       return { ...state, baseCurrency: state.quoteCurrency, quoteCurrency: state.baseCurrency }

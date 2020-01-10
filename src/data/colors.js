@@ -3,6 +3,6 @@ export default {
   orange: '#D57A66',
   green: '#008D9D',
   purple: '#9E7687',
-  dark: '#343434',
+  black: '#343434',
   white: '#FFF'
 }
