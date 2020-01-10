@@ -12,28 +12,22 @@ import { Types as MainTypes } from '../../store/ducks/Main';
 const Main = ({ navigation }, props) => {
   const [sizeAnimated] = useState(new Animated.Value(30));
   const ANIMATION_DURATION = 250;
-
-  const [quote, setQuote] = useState('GBP');
-  const [base, setBase] = useState('USD');
-  const [rate, setRate] = useState(0);
-  const [basePrice, setBasePrice] = useState('0');
-  const [quotePrice, setQuotePrice] = useState('0');
-  const [conversionSelector, setConversion] = useState({});
-  const [rates, setRates] = useState(0);
-
   const TEMP_CONVERSION_DATE = new Date();
+  const [quotePrice, setQuotePrice] = useState('0');
 
-  const data = useSelector(state => state.Main);
   const dispatch = useDispatch();
+  const data = useSelector(state => state.Main);
+
+  const { conversions, amount: basePrice, baseCurrency: base, quoteCurrency: quote } = data;
+  const { rates } = conversions[base];
+
   const theme = useSelector(state => state.Themes);
   const { primaryColor } = theme;
 
   useEffect(() => {
 
     dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
-    data.conversions && conversion();
-    data.conversions && setBase(data.baseCurrency);
-    data.conversions && setQuote(data.quoteCurrency);
+    data.conversions && conversion()
 
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
     Keyboard.addListener(`keyboard${name}Show`, keyboardShow);
@@ -44,37 +38,24 @@ const Main = ({ navigation }, props) => {
 
   useEffect(() => {
     conversion();
-    setBase(data.baseCurrency);
-    setQuote(data.quoteCurrency);
   }, [data]);
 
 
   function conversion() {
-
-    data.conversions && setConversion(data.conversions[base]);
-    data.conversions && setRates(data.conversions[base].rates[quote] || '0');
-    setBasePrice(data.amount);
-
     let quoteText = '...';
-    if (!conversionSelector.isFetching) {
-      quoteText = (Number(basePrice) * rates).toFixed(2);
+    if (!conversions[base].isFetching) {
+      quoteText = (Number(basePrice) * rates[quote]).toFixed(2);
     }
     setQuotePrice(quoteText);
-
-    console.log(quotePrice);
   }
 
 
   const handleSwap = () => {
     dispatch({ type: MainTypes.SWAP_CURRENCY });
-
-    setBase(data.baseCurrency);
-    setQuote(data.quoteCurrency);
   };
 
   const handleChangeText = (text) => {
-    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
-    setBasePrice(text);
+    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT, amount: text });
   };
 
 
@@ -104,16 +85,16 @@ const Main = ({ navigation }, props) => {
         </Animated.Text>
         <KeyboardAvoidingView>
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base', currency: base })}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base', currency: data.base })}
             buttonText={base}
-            defaultValue={data.amount.toString()}
+            defaultValue={basePrice.toString()}
             keyboardType="numeric"
             onChangeText={handleChangeText}
             color={primaryColor}
           />
 
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote', currency: quote })}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote', currency: data.quote })}
             buttonText={quote}
             defaultValue={quotePrice}
             editable={false}
@@ -125,7 +106,9 @@ const Main = ({ navigation }, props) => {
           date={TEMP_CONVERSION_DATE}
           base={base}
           quote={quote}
-          conversionRate={rates.toString()}
+          conversionRate={
+            rates[quote].toString() || '0'
+          }
         />
 
         <SimpleButton

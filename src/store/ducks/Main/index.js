@@ -57,7 +57,7 @@ const setConversion = (state, action) => {
     date: '',
     rates: {},
   }
-  console.log(action);
+
   if (state.conversions[action.payload]) {
     conversion = state.conversions[action.payload];
   }
