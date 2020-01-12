@@ -3,6 +3,7 @@ import { Text, FlatList, SafeAreaView } from 'react-native';
 import { Separator } from '../../components/Component/styles';
 import ListItem from '../../components/ListItem/index';
 import currencies from '../../data/currencies';
+import details from '../../data/currenciesDetails';
 import { useSelector, useDispatch } from 'react-redux';
 import { Types as MainTypes } from '../../store/ducks/Main';
 
@@ -29,21 +30,23 @@ const CurrencyList = ({ navigation }) => {
   useEffect(() => {
     const { currency } = navigation.state.params;
     setSelected(currency);
+    console.log(selected);
   }, [])
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        data={currencies}
-        keyExtractor={item => item}
-        renderItem={({ item }) =>
-          <ListItem
-            selected={selected == item}
-            text={item}
-            onPress={() => handlePress(item)}
+        data={details}
+        keyExtractor={item => item.currencyCode}
+        renderItem={({ item }) => {
+          return (<ListItem
+            selected={selected == item.currencyCode}
+            text={item.currencyCode}
+            secondaryText={item.currencyName}
+            onPress={() => handlePress(item.currencyCode)}
             iconBackground={primaryColor}
-          />
-        }
+          />)
+        }}
         ItemSeparatorComponent={Separator}
       />
     </SafeAreaView>

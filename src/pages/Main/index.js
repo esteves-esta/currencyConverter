@@ -1,31 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableWithoutFeedback, Keyboard, Platform, KeyboardAvoidingView, Animated } from 'react-native';
+import {
+  Text, TouchableWithoutFeedback,
+  Keyboard, Platform, KeyboardAvoidingView,
+  Animated, AsyncStorage
+} from 'react-native';
 import { Container, Title } from './styles';
 import TextInputBtn from '../../components/TextInputBtn/index';
 import SimpleButton from '../../components/SimpleButton/index';
+
 import ConversionText from '../../components/ConversionText/index';
 import Header from '../../components/Header/index';
+
 import { useSelector, useDispatch } from 'react-redux';
+import { Types as ThemesTypes } from '../../store/ducks/Themes';
 import { Types as MainTypes } from '../../store/ducks/Main';
+
 // https://learn.handlebarlabs.com/courses/react-native-basics-build-a-currency-converter/lectures/2769046
 
 const Main = ({ navigation }, props) => {
+
   const [sizeAnimated] = useState(new Animated.Value(30));
   const ANIMATION_DURATION = 250;
   const TEMP_CONVERSION_DATE = new Date();
   const [quotePrice, setQuotePrice] = useState('0');
-
   const dispatch = useDispatch();
   const data = useSelector(state => state.Main);
 
-  const { conversions, amount: basePrice, baseCurrency: base, quoteCurrency: quote } = data;
+  const {
+    conversions,
+    countriesCurrency,
+    amount: basePrice,
+    baseCurrency: base,
+    quoteCurrency: quote } = data;
+
   const { rates } = conversions[base];
 
   const theme = useSelector(state => state.Themes);
   const { primaryColor } = theme;
 
-  useEffect(() => {
+  async function checkThemeColor() {
+    let value = await AsyncStorage.getItem("@teste:choose_color");
+    value ? dispatch({ type: ThemesTypes.CHANGE_PRIMARY_COLOR, payload: value }) : null;
+  }
 
+  useEffect(() => {
     dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
     data.conversions && conversion();
 
@@ -35,6 +53,10 @@ const Main = ({ navigation }, props) => {
 
     conversion();
   }, []);
+
+  useEffect(() => {
+    checkThemeColor();
+  }, [theme]);
 
   useEffect(() => {
     conversion();
@@ -82,13 +104,12 @@ const Main = ({ navigation }, props) => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container background={primaryColor}>
         <Header onPress={() => navigation.navigate('Options')} />
-
         <Animated.Text style={{ fontSize: sizeAnimated }}>
           <Title>Currency Converter</Title>
         </Animated.Text>
         <KeyboardAvoidingView>
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base', currency: data.base })}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Base Currency', type: 'base', currency: base })}
             buttonText={base}
             defaultValue={basePrice.toString()}
             keyboardType="numeric"
@@ -97,7 +118,7 @@ const Main = ({ navigation }, props) => {
           />
 
           <TextInputBtn
-            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote', currency: data.quote })}
+            onPress={() => navigation.navigate('CurrencyList', { title: 'Quote Currency', type: 'quote', currency: quote })}
             buttonText={quote}
             defaultValue={quotePrice}
             editable={false}
@@ -117,9 +138,13 @@ const Main = ({ navigation }, props) => {
           text="Reverse Currencies"
         />
 
+        <SimpleButton
+          onPress={() => navigation.navigate('Details')}
+          text={`Show where currency is used`}
+        />
 
       </Container>
-    </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback >
   )
 };
 

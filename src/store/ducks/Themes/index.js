@@ -1,4 +1,5 @@
 import colors from '../../../data/colors';
+import { AsyncStorage } from 'react-native';
 
 export const Types = {
     CHANGE_PRIMARY_COLOR: 'THEME/CHANGE_PRIMARY_COLOR',

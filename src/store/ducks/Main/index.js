@@ -1,3 +1,5 @@
+import details from '../../../data/currenciesDetails';
+
 export const Types = {
   SWAP_CURRENCY: 'MAIN/SWAP_CURRENCY',
   CHANGE_CURRENCY_AMOUNT: 'MAIN/CHANGE_CURRENCY_AMOUNT',
@@ -5,10 +7,16 @@ export const Types = {
   CHANGE_QUOTE_CURRENCY: 'MAIN/CHANGE_QUOTE_CURRENCY',
 };
 
+const getCountries = (currencyCode) => {
+  let currency = details.find(item => item.currencyCode == currencyCode);
+  return currency.countries;
+}
+
 const INITIAL_STATE = {
   amount: 100,
   baseCurrency: 'USD',
   quoteCurrency: 'GBP',
+  countriesCurrency: getCountries('USD'),
   conversions: {
     USD: {
       isFetching: false,
@@ -51,22 +59,24 @@ const INITIAL_STATE = {
   }
 };
 
-const setConversion = (state, action) => {
+const setConversion = (state, currency) => {
   let conversion = {
     isFetching: true,
     date: '',
     rates: {},
   }
 
-  if (state.conversions[action.payload]) {
-    conversion = state.conversions[action.payload];
+  if (state.conversions[currency]) {
+    conversion = state.conversions[currency];
   }
 
   return {
     ...state.conversions,
-    [action.payload]: conversion
+    [currency]: conversion
   }
 }
+
+
 
 export default function main(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -74,20 +84,37 @@ export default function main(state = INITIAL_STATE, action) {
       return { ...state, amount: action.amount || 0 };
     }
     case Types.SWAP_CURRENCY: {
-      return { ...state, baseCurrency: state.quoteCurrency, quoteCurrency: state.baseCurrency }
+      let countries = getCountries(state.quoteCurrency);
+
+      return {
+        ...state,
+        baseCurrency: state.quoteCurrency,
+        quoteCurrency: state.baseCurrency,
+        countriesCurrency: countries,
+        conversions: setConversion(state, state.quoteCurrency),
+      }
     }
     case Types.CHANGE_BASE_CURRENCY: {
+      let countries = getCountries(action.payload);
+
       return {
         ...state,
         baseCurrency: action.payload,
-        conversions: setConversion(state, action)
+        conversions: setConversion(state, action.payload),
+        countriesCurrency: countries,
       }
     }
     case Types.CHANGE_QUOTE_CURRENCY: {
+      console.log(action.payload);
+      // let countries = getCountries(action.payload);
+      let countries = [];
+
+
       return {
         ...state,
         quoteCurrency: action.payload,
-        conversions: setConversion(state, action)
+        conversions: setConversion(state, action.payload),
+        countriesCurrency: countries,
       }
     }
     default:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, AsyncStorage } from 'react-native';
 import ListItem from '../../components/ListItem/index';
 import { Types as ThemesTypes } from '../../store/ducks/Themes';
 import { useDispatch } from 'react-redux';
@@ -10,8 +10,9 @@ const Themes = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleClick = (text) => {
-    dispatch({ type: ThemesTypes.CHANGE_PRIMARY_COLOR, payload: text });
+  const handleClick = (color) => {
+    dispatch({ type: ThemesTypes.CHANGE_PRIMARY_COLOR, payload: color });
+    AsyncStorage.setItem("@teste:choose_color", color);
     navigation.goBack(null);
   };
 
@@ -19,7 +20,7 @@ const Themes = ({ navigation }) => {
   return (
     <ScrollView>
       <ListItem
-        text={'Blue'}
+        color={'Blue'}
         onPress={() => handleClick(colors.blue)}
         checkmark={false}
         iconBackground={colors.blue}
@@ -28,7 +29,7 @@ const Themes = ({ navigation }) => {
       <Separator />
 
       <ListItem
-        text={'Orange'}
+        color={'Orange'}
         onPress={() => handleClick(colors.orange)}
         checkmark={false}
         iconBackground={colors.orange}
@@ -36,7 +37,7 @@ const Themes = ({ navigation }) => {
 
       <Separator />
       <ListItem
-        text={'Green'}
+        color={'Green'}
         onPress={() => handleClick(colors.green)}
         checkmark={false}
         iconBackground={colors.green}
@@ -44,7 +45,7 @@ const Themes = ({ navigation }) => {
 
       <Separator />
       <ListItem
-        text={'Black'}
+        color={'Black'}
         onPress={() => handleClick(colors.black)}
         checkmark={false}
         iconBackground={colors.black}
