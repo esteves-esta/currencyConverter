@@ -33,7 +33,7 @@ const Main = ({ navigation }, props) => {
     baseCurrency: base,
     quoteCurrency: quote } = data;
 
-  const { rates } = conversions[base];
+  // const { rates } = conversions[base];
 
   const theme = useSelector(state => state.Themes);
   const { primaryColor } = theme;
@@ -44,7 +44,9 @@ const Main = ({ navigation }, props) => {
   }
 
   useEffect(() => {
+    dispatch({ type: MainTypes.GET_INITIAL_CONVERSION });
     dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
+
     data.conversions && conversion();
 
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
@@ -60,13 +62,16 @@ const Main = ({ navigation }, props) => {
 
   useEffect(() => {
     conversion();
+    // console.log('data', data.conversions);
   }, [data]);
 
 
   function conversion() {
     let quoteText = '...';
-    if (!conversions[base].isFetching) {
-      quoteText = (Number(basePrice) * rates[quote]).toFixed(2);
+    if (conversions[base]) {
+      if (!conversions[base].isFetching) {
+        quoteText = (Number(basePrice) * conversions[base].rates[quote]).toFixed(2);
+      }
     }
     setQuotePrice(quoteText);
   }
@@ -126,12 +131,12 @@ const Main = ({ navigation }, props) => {
           />
         </KeyboardAvoidingView>
 
-        <ConversionText
+        {data.conversions[data.baseCurrency] && <ConversionText
           date={TEMP_CONVERSION_DATE}
           base={base}
           quote={quote}
-          conversionRate={rates[quote] || '0'}
-        />
+          conversionRate={conversions[base].rates[quote] || '0'}
+        />}
 
         <SimpleButton
           onPress={handleSwap}

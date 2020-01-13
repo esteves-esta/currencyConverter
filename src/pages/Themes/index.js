@@ -20,7 +20,7 @@ const Themes = ({ navigation }) => {
   return (
     <ScrollView>
       <ListItem
-        color={'Blue'}
+        text={'Blue'}
         onPress={() => handleClick(colors.blue)}
         checkmark={false}
         iconBackground={colors.blue}
@@ -29,7 +29,7 @@ const Themes = ({ navigation }) => {
       <Separator />
 
       <ListItem
-        color={'Orange'}
+        text={'Orange'}
         onPress={() => handleClick(colors.orange)}
         checkmark={false}
         iconBackground={colors.orange}
@@ -37,7 +37,7 @@ const Themes = ({ navigation }) => {
 
       <Separator />
       <ListItem
-        color={'Green'}
+        text={'Green'}
         onPress={() => handleClick(colors.green)}
         checkmark={false}
         iconBackground={colors.green}
@@ -45,7 +45,7 @@ const Themes = ({ navigation }) => {
 
       <Separator />
       <ListItem
-        color={'Black'}
+        text={'Black'}
         onPress={() => handleClick(colors.black)}
         checkmark={false}
         iconBackground={colors.black}

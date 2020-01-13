@@ -26,7 +26,9 @@ const CurrencyDetails = () => {
     return (
         <Container background={primaryColor}>
             <View>
-                <Title>{currency.currencyName} ({base}) is used in: </Title>
+                <Title>{base}</Title>
+                <Title>{currency.currencyName}</Title>
+                <Title>is used in:</Title>
                 <List arrayOfItens={countriesCurrency} />
             </View>
         </Container>
