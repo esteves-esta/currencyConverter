@@ -1,4 +1,4 @@
-import details from '../../../data/currenciesDetails';
+import details from '~/data/currenciesDetails';
 
 export const Types = {
   SWAP_CURRENCY: 'MAIN/SWAP_CURRENCY',

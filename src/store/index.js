@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import Reactotron from '../config/ReactotronConfig';
+import Reactotron from '~/config/ReactotronConfig';
 import { YellowBox } from 'react-native';
 import reducers from './ducks';
 import sagas from './sagas';

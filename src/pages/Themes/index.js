@@ -1,10 +1,10 @@
 import React from 'react';
 import { ScrollView, AsyncStorage } from 'react-native';
-import ListItem from '../../components/ListItem/index';
-import { Types as ThemesTypes } from '../../store/ducks/Themes';
+import ListItem from '~/components/ListItem/index';
+import { Types as ThemesTypes } from '~/store/ducks/Themes';
 import { useDispatch } from 'react-redux';
-import { Separator } from '../../components/Component/styles';
-import colors from '../../data/colors';
+import { Separator } from '~/components/Component/styles';
+import colors from '~/data/colors';
 
 const Themes = ({ navigation }) => {
 

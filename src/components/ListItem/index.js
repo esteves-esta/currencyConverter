@@ -1,6 +1,6 @@
 import React from 'react';
 import { CustomButton, CustomText, SmallText, Row } from './styles';
-import Icon from '../../components/Icon/index';
+import Icon from '~/components/Icon/index';
 
 export default function ListItem(
   { text, selected = true, onPress, checkmark = true,

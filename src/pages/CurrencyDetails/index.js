@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Types as MainTypes } from '../../store/ducks/Main';
-import List from '../../components/List/index';
+import { Types as MainTypes } from '~/store/ducks/Main';
+import List from '~/components/List/index';
 import { useSelector } from 'react-redux';
 import { Container, Title } from './styles';
-import details from '../../data/currenciesDetails';
+import details from '~/data/currenciesDetails';
 
 const CurrencyDetails = () => {
 

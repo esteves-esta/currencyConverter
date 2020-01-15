@@ -1,5 +1,5 @@
 import { all, takeLatest, takeEvery } from 'redux-saga/effects';
-import { Types as MainTypes } from '../ducks/Main/index';
+import { Types as MainTypes } from '~/store/ducks/Main';
 import { fetchLastestConversionRates } from './Main';
 
 export default function* rootSaga() {

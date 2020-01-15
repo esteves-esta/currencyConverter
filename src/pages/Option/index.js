@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ScrollView, Linking, Alert } from 'react-native';
-import ListItem from '../../components/ListItem/index';
-import { Separator } from '../../components/Component/styles';
+import ListItem from '~/components/ListItem/index';
+import { Separator } from '~/components/Component/styles';
 import { useSelector } from 'react-redux';
 
 const Option = ({ navigation }) => {
@@ -21,7 +21,7 @@ const Option = ({ navigation }) => {
       <ListItem
         text={'Themes'}
         onPress={handleThemesPage}
-        customIcon={require('../../asset/next.png')}
+        customIcon={require('~/asset/next.png')}
         iconBackground={primaryColor}
       />
 
@@ -30,7 +30,7 @@ const Option = ({ navigation }) => {
       <ListItem
         text={'Handlebarlabs.com'}
         onPress={handleSitePress}
-        customIcon={require('../../asset/unlink.png')}
+        customIcon={require('~/asset/unlink.png')}
         iconBackground={primaryColor}
       />
     </ScrollView>

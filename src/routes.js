@@ -5,11 +5,11 @@ import {
 
 import { createStackNavigator } from 'react-navigation-stack';
 
-import Main from './pages/Main/index';
-import CurrencyList from './pages/CurrencyList/index';
-import Option from './pages/Option/index';
-import Themes from './pages/Themes/index';
-import CurrencyDetails from './pages/CurrencyDetails/index';
+import Main from '~/pages/Main/';
+import CurrencyList from '~/pages/CurrencyList';
+import Option from '~/pages/Option/';
+import Themes from '~/pages/Themes';
+import CurrencyDetails from '~/pages/CurrencyDetails/index';
 
 const optionStack = createStackNavigator({
   Home: {

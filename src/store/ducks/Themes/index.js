@@ -1,4 +1,4 @@
-import colors from '../../../data/colors';
+import colors from '~/data/colors';
 import { AsyncStorage } from 'react-native';
 
 export const Types = {

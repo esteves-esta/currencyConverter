@@ -5,15 +5,15 @@ import {
   Animated, AsyncStorage
 } from 'react-native';
 import { Container, Title } from './styles';
-import TextInputBtn from '../../components/TextInputBtn/index';
-import SimpleButton from '../../components/SimpleButton/index';
+import TextInputBtn from '~/components/TextInputBtn/index';
+import SimpleButton from '~/components/SimpleButton/index';
 
-import ConversionText from '../../components/ConversionText/index';
-import Header from '../../components/Header/index';
+import ConversionText from '~/components/ConversionText/index';
+import Header from '~/components/Header/index';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { Types as ThemesTypes } from '../../store/ducks/Themes';
-import { Types as MainTypes } from '../../store/ducks/Main';
+import { Types as ThemesTypes } from '~/store/ducks/Themes';
+import { Types as MainTypes } from '~/store/ducks/Main';
 
 // https://learn.handlebarlabs.com/courses/react-native-basics-build-a-currency-converter/lectures/2769046
 
@@ -43,10 +43,20 @@ const Main = ({ navigation }, props) => {
     value ? dispatch({ type: ThemesTypes.CHANGE_PRIMARY_COLOR, payload: value }) : null;
   }
 
+  async function checkLastAmount() {
+    let lastAmount = await AsyncStorage.getItem("@teste:last_amount");
+    console.log('saved', lastAmount);
+    lastAmount ? handleChangeText(lastAmount) : dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
+  }
+
+  const saveLastAmount = async () => {
+    console.log('saving', data.amount);
+    await AsyncStorage.setItem("@teste:last_amount", basePrice.toString());
+  }
+
   useEffect(() => {
     dispatch({ type: MainTypes.GET_INITIAL_CONVERSION });
-    dispatch({ type: MainTypes.CHANGE_CURRENCY_AMOUNT });
-
+    checkLastAmount();
     data.conversions && conversion();
 
     const name = Platform.OS === 'ios' ? 'Will' : 'Did';
@@ -62,6 +72,7 @@ const Main = ({ navigation }, props) => {
 
   useEffect(() => {
     conversion();
+    saveLastAmount();
     // console.log('data', data.conversions);
   }, [data]);
 
